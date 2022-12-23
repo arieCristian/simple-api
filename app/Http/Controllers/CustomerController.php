@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customers;
+use App\Models\Customer;
 use Illuminate\Http\Request;
-use League\Flysystem\UnableToRetrieveMetadata;
 
-class CustomersController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +14,12 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        $customers =  Customers::paginate(10);
+        $customers =  Customer::paginate(10);
         return response()->json([
             'data' => $customers
         ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -29,7 +29,7 @@ class CustomersController extends Controller
      */
     public function store(Request $request)
     {
-        $customers = Customers::create([
+        $customers = Customer::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
@@ -45,34 +45,33 @@ class CustomersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Customers  $customers
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Customers $customers)
+    public function show(Customer $customer)
     {
         return response()->json([
-            'data' => $customers
+            'data' => $customer
         ]);
     }
+
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Customers  $customers
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customers $customers)
+    public function update(Request $request, Customer $customer)
     {
-        dd($customers);
-        $customers->name = $request->name ;
-        $customers->email = $request->email ;
-        $customers->phone_number = $request->phone_number;
-        $customers->address = $request->address;
-        $customers->save() ;
-        
+        $customer->name = $request->name ;
+        $customer->email = $request->email ;
+        $customer->phone_number = $request->phone_number;
+        $customer->address = $request->address;
+        $customer->save() ;   
         return response()->json([
-            'data' => $customers ,
+            'data' => $customer ,
             'message' => 'data updated !'
         ]); 
     }
@@ -80,12 +79,12 @@ class CustomersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Customers  $customers
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customers $customers)
+    public function destroy(Customer $customer)
     {
-        $customers->delete();
+        $customer->delete();
         return response()->json([
             'message' => 'data deleted'
         ],204);
